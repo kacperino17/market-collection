@@ -1,0 +1,36 @@
+import tradingeconomics as te
+
+
+te.login('guest:guest')
+
+
+te.getMarketsData(marketsField = 'commodities')
+
+# Fetching commodity prices (e.g., Steel)
+commodity_data = te.getMarkets(category='commodities')
+
+# Print a list of commodities
+for commodity in commodity_data:
+    print(f"Name: {commodity['Ticker']}, Price: {commodity['Price']}")
+
+# Fetching data for specific countries or indicators
+economic_data = te.getIndicatorData(country='United States', indicator='GDP')
+
+# Print GDP data
+for data in economic_data:
+    print(f"Date: {data['DateTime']}, GDP: {data['Value']}")
+
+
+import matplotlib.pyplot as plt
+
+# Extract prices and dates for a specific commodity
+commodity_prices = [item['Price'] for item in commodity_data if item['Ticker'] == 'Steel']
+commodity_dates = [item['DateTime'] for item in commodity_data if item['Ticker'] == 'Steel']
+
+# Plot the data
+plt.plot(commodity_dates, commodity_prices, label='Steel Prices')
+plt.xlabel('Date')
+plt.ylabel('Price')
+plt.title('Steel Price Trends')
+plt.legend()
+plt.show()
